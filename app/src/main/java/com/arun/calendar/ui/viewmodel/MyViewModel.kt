@@ -10,10 +10,13 @@ import com.arun.calendar.data.repository.CalendarRepository
 
 class MyViewModel(private val calendarRepo : CalendarRepository) : ViewModel() {
 
-    fun getAllEventsRecord(context: Context) : LiveData<List<CalendarModel>> {
-        val dataLiveData : MutableLiveData<List<CalendarModel>> = MutableLiveData()
-        dataLiveData.postValue(calendarRepo.getAllRecords(context))
-        return dataLiveData
+    var data : MutableLiveData<List<CalendarModel>> = MutableLiveData()
+
+    fun getAllEventsRecord(context: Context) : List<CalendarModel> {
+//        val dataLiveData : MutableLiveData<List<CalendarModel>> = MutableLiveData()
+//        data.postValue(calendarRepo.getAllRecords(context))
+        return calendarRepo.getAllRecords(context)
+//        return dataLiveData
     }
 
     fun getRecordFromDate(context: Context,timeMillis : Long) : List<EventsModel>{

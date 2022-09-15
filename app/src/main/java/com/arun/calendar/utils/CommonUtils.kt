@@ -20,6 +20,13 @@ class CommonUtils {
             return formatter.format(date)
         }
 
+        fun getParticularDuration(eventStartTime : Long, eventEndTime: Long) :String{
+            val millis = eventEndTime-eventStartTime
+            val hours = (millis / (1000 * 60 * 60)).toInt()
+            val mins = (millis / (1000 * 60) % 60).toInt()
+            return "$hours:$mins"
+        }
+
         fun isEventTimeValid(existingStartTime : Long,existingEndTime: Long, eventStartTime : Long, eventEndTime: Long) : Boolean{
             var eventStartTimeValid = false
             var eventEndTimeValid = false
