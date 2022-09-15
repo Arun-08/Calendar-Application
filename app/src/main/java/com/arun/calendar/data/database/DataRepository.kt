@@ -9,13 +9,9 @@ import kotlinx.coroutines.launch
 
 object DataRepository {
 
-    fun getAllEventsRecord(context: Context): MutableLiveData<List<EventsModel>> {
-        val liveData : MutableLiveData<List<EventsModel>> = MutableLiveData()
-        CoroutineScope(Dispatchers.IO).launch {
-            val appDatabase = AppDatabase.getInstance(context)
-            liveData.postValue(appDatabase.eventsDao().getAllRecords())
-        }
-        return liveData
+    fun getAllEventsRecord(context: Context): List<EventsModel> {
+        val appDatabase = AppDatabase.getInstance(context)
+        return appDatabase.eventsDao().getAllRecords()
     }
     fun updateRecords(context: Context,eventsModel: EventsModel){
         val appDatabase = AppDatabase.getInstance(context)
@@ -27,5 +23,13 @@ object DataRepository {
         appDatabase.eventsDao().addEvents(eventsModel)
     }
 
+    fun getRecordFromDate(context: Context, timeMillis : Long) : List<EventsModel>{
+        val appDatabase = AppDatabase.getInstance(context)
+        return appDatabase.eventsDao().getRecordFromDate(timeMillis)
+    }
 
+    fun getRecordFromEvents(context: Context, eventsModel: EventsModel) : EventsModel{
+        val appDatabase = AppDatabase.getInstance(context)
+        return appDatabase.eventsDao().getRecordFromEvents(eventsModel.eStartTime,eventsModel.eEndTime,eventsModel.dateTimeStamp)
+    }
 }

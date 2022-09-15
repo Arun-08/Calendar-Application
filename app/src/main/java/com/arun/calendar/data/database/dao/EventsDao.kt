@@ -18,4 +18,9 @@ interface EventsDao {
     @Query("UPDATE event_records SET eName=:eName, eStartTime=:sTime, eEndTime=:eTime WHERE dateTimeStamp = :eventDate")
     fun updateEvents(eName : String, sTime : Long,eTime : Long,eventDate : Long)
 
+    @Query("SELECT * FROM event_records WHERE dateTimeStamp = :timeMillis")
+    fun getRecordFromDate(timeMillis : Long) : List<EventsModel>
+
+    @Query("SELECT * FROM event_records WHERE dateTimeStamp = :eventDate AND eStartTime = :sTime AND eEndTime=:eTime")
+    fun getRecordFromEvents(sTime : Long,eTime : Long,eventDate : Long) : EventsModel
 }
