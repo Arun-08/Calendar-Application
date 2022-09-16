@@ -7,16 +7,17 @@ import androidx.lifecycle.ViewModel
 import com.arun.calendar.data.database.table.EventsModel
 import com.arun.calendar.data.model.CalendarModel
 import com.arun.calendar.data.repository.CalendarRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
-class MyViewModel(private val calendarRepo : CalendarRepository) : ViewModel() {
+class MyViewModel(private val calendarRepo : CalendarRepository) : ViewModel(), CoroutineScope {
 
-    var data : MutableLiveData<List<CalendarModel>> = MutableLiveData()
-
-    fun getAllEventsRecord(context: Context) : List<CalendarModel> {
-//        val dataLiveData : MutableLiveData<List<CalendarModel>> = MutableLiveData()
-//        data.postValue(calendarRepo.getAllRecords(context))
-        return calendarRepo.getAllRecords(context)
-//        return dataLiveData
+    fun getAllEventsRecord(context: Context) : LiveData<List<CalendarModel>> {
+        val dataLiveData : MutableLiveData<List<CalendarModel>> = MutableLiveData()
+        dataLiveData.postValue(calendarRepo.getAllRecords(context))
+        return dataLiveData
     }
 
     fun getRecordFromDate(context: Context,timeMillis : Long) : List<EventsModel>{
@@ -35,8 +36,15 @@ class MyViewModel(private val calendarRepo : CalendarRepository) : ViewModel() {
         calendarRepo.updateEventsModel(context,eventsModel)
     }
 
+    fun isRecordAvailable(context: Context, eventDate : Long) : Boolean{
+        return calendarRepo.isRecordAvailable(context,eventDate)
+    }
+
     fun getRecordFromEvent(context: Context,eventsModel: EventsModel) : EventsModel{
         return calendarRepo.getRecordFromEvent(context,eventsModel)
     }
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.IO
 
 }

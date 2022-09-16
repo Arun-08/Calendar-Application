@@ -23,4 +23,5 @@ interface EventsDao {
 
     @Query("SELECT * FROM event_records WHERE dateTimeStamp = :eventDate AND eStartTime = :sTime AND eEndTime=:eTime")
     fun getRecordFromEvents(sTime : Long,eTime : Long,eventDate : Long) : EventsModel
+
 }

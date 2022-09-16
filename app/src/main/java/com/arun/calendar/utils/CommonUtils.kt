@@ -1,5 +1,6 @@
 package com.arun.calendar.utils
 
+import android.util.Log
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -10,7 +11,7 @@ class CommonUtils {
         fun getDateFromMillis(milliSeconds : Long) : String{
             val formatter = SimpleDateFormat("dd MMM yyyy",Locale.ENGLISH)
             val calendar = Calendar.getInstance()
-            calendar.timeInMillis = milliSeconds
+            calendar.time = Date(milliSeconds)
             return formatter.format(calendar.time)
         }
 
@@ -57,6 +58,39 @@ class CommonUtils {
                 eventEndTimeValid = true
             }
             return (eventStartTimeValid && eventEndTimeValid)
+        }
+
+        fun formatString(hourOfDay: Int, minute: Int) : String{
+            return when {
+                hourOfDay == 0 -> {
+                    if (minute < 10) {
+                        "${hourOfDay + 12}:0${minute} am"
+                    } else {
+                        "${hourOfDay + 12}:${minute} am"
+                    }
+                }
+                hourOfDay > 12 -> {
+                    if (minute < 10) {
+                        "${hourOfDay - 12}:0${minute} pm"
+                    } else {
+                        "${hourOfDay - 12}:${minute} pm"
+                    }
+                }
+                hourOfDay == 12 -> {
+                    if (minute < 10) {
+                        "${hourOfDay}:0${minute} pm"
+                    } else {
+                        "${hourOfDay}:${minute} pm"
+                    }
+                }
+                else -> {
+                    if (minute < 10) {
+                        "${hourOfDay}:${minute} am"
+                    } else {
+                        "${hourOfDay}:${minute} am"
+                    }
+                }
+            }
         }
 
     }

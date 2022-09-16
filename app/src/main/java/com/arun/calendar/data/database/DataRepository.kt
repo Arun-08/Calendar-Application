@@ -32,4 +32,5 @@ object DataRepository {
         val appDatabase = AppDatabase.getInstance(context)
         return appDatabase.eventsDao().getRecordFromEvents(eventsModel.eStartTime,eventsModel.eEndTime,eventsModel.dateTimeStamp)
     }
+
 }

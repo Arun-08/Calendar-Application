@@ -19,7 +19,7 @@ abstract class AppDatabase : RoomDatabase() {
 
         fun getInstance(mContext: Context) : AppDatabase {
             return INSTANCE?: synchronized(this){
-                val instance = Room.databaseBuilder(mContext,AppDatabase::class.java,DB_NAME)
+                val instance = Room.databaseBuilder(mContext,AppDatabase::class.java,DB_NAME).allowMainThreadQueries().fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
                 return instance
